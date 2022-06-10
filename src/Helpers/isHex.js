@@ -1,9 +1,9 @@
 function isHex(color) {
   var reg = /^#([0-9a-f]{3}){1,2}$/i;
 
-  if (reg.test(color)) return color;
+  if (reg.test(color)) return true;
 
-  return "#ffffff";
+  return false;
 }
 
 export default isHex;

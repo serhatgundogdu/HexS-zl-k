@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Layout } from "./Components/Layout";
 import Search from "./Components/Search";
 import Word from "./Components/Word";
+import isHex from "./Helpers/isHex";
 
 function App() {
   const [isLoading, setLoading] = useState(true);
@@ -14,7 +15,7 @@ function App() {
       `https://gist.githubusercontent.com/f/9c59c515fca028b549a6014aa43c14b0/raw/8253074695e0777b97b6be5e96b6c51f645337ae/all-hex-words.json`
     )
       .then((data) => data.json())
-      .then((words) => setWords(words))
+      .then((words) => setWords(words.filter((word) => isHex(word[1]))))
       .then(setLoading(false));
   };
 
@@ -29,7 +30,10 @@ function App() {
       .then((data) => data.json())
       .then((words) =>
         setWords(
-          words.filter((word) => word[0].toLocaleLowerCase().includes(search))
+          words.filter(
+            (word) =>
+              word[0].toLocaleLowerCase().includes(search) && isHex(word[1])
+          )
         )
       );
   };
