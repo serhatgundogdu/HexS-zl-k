@@ -3,12 +3,11 @@ import { Layout } from "./Components/Layout";
 import Search from "./Components/Search";
 import Word from "./Components/Word";
 import isHex from "./Helpers/isHex";
-
+import { Toaster } from "react-hot-toast";
 function App() {
   const [isLoading, setLoading] = useState(true);
   const [words, setWords] = useState([]);
   const [search, setSearch] = useState("");
-  const [alert, setAlert] = useState(false);
 
   const getWords = () => {
     fetch(
@@ -39,17 +38,6 @@ function App() {
   };
 
   useEffect(() => {
-    let alertInterval;
-
-    if (alert) {
-      clearInterval(alertInterval);
-      alertInterval = setInterval(() => {
-        setAlert(false);
-      }, 5000);
-    }
-  }, [alert]);
-
-  useEffect(() => {
     filterWords(search);
   }, [search]);
   if (isLoading) {
@@ -57,11 +45,7 @@ function App() {
   }
   return (
     <Layout>
-      {alert && (
-        <div className="absolute z-50 px-8 py-4 font-medium text-white transition-all bg-red-500 rounded-md text-md right-10">
-          Başarıyla kopyalandı!
-        </div>
-      )}
+      <Toaster />
       <header className="flex items-center justify-center h-16 max-w-5xl px-4 py-4 mx-auto mt-12 text-black bg-transparent">
         <h1 className="text-2xl italic font-bold">HEX SÖZLÜK</h1>
       </header>
@@ -80,8 +64,7 @@ function App() {
         </section>
         <section className="h-full max-w-5xl mx-auto text-center md:pt-1 ">
           <div className="grid grid-cols-1 gap-2 mt-4 md:mt-8 md:grid-cols-4">
-            {words.length > 0 &&
-              words.map((word) => <Word word={word} setAlert={setAlert} />)}
+            {words.length > 0 && words.map((word) => <Word word={word} />)}
           </div>
         </section>
       </main>

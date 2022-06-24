@@ -1,10 +1,18 @@
 import React from "react";
 import getContrastYIQ from "../Helpers/getContrastYIQ";
 import Clipboard from "react-clipboard.js";
+import toast from "react-hot-toast";
 
-const Word = ({ word, setAlert }) => {
+const Word = ({ word }) => {
   return (
-    <Clipboard data-clipboard-text={word[1]} onSuccess={() => setAlert(true)}>
+    <Clipboard
+      data-clipboard-text={word[1]}
+      onSuccess={() =>
+        toast.success(`${word[1]} is successfully coppied.`, {
+          position: "top-right",
+        })
+      }
+    >
       <div
         className="flex items-center justify-between w-full h-full px-2 py-2 transition-all bg-white border border-black rounded-md border-opacity-20 hover:scale-105"
         style={{ background: word[1] }}
